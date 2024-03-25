@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir y Ver PDFs con Comentario</title>
+    <style>
+        /* Estilos CSS para la lista de PDFs */
+        #pdf-list {
+            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .pdf-item {
+            width: 200px;
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .pdf-thumbnail {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Subir y Ver PDFs con Comentario</h1>
+    <form id="pdf-upload-form" enctype="multipart/form-data">
+        <label for="pdf-file">Selecciona un archivo PDF:</label>
+        <input type="file" id="pdf-file" accept=".pdf" required>
+        <br>
+        <label for="comment">Escribe un comentario:</label>
+        <textarea id="comment" rows="4" required></textarea>
+        <br>
+        <input type="submit" value="Subir">
+    </form>
+
+    <div id="uploaded-pdfs">
+        <h2>PDFs Subidos:</h2>
+        <ul id="pdf-list"></ul>
+    </div>
+
+    <script>
+        const pdfFileInput = document.getElementById('pdf-file');
+        const commentInput = document.getElementById('comment');
+        const pdfList = document.getElementById('pdf-list');
+        const pdfUploadForm = document.getElementById('pdf-upload-form');
+
+        pdfUploadForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Obtener el archivo PDF seleccionado
+            const pdfFile = pdfFileInput.files[0];
+            if (!pdfFile) {
+                alert('Selecciona un archivo PDF primero.');
+                return;
+            }
+
+            // Mostrar el comentario
+            const comment = commentInput.value;
+
+            // Crear un elemento de lista para el PDF
+            const pdfItem = document.createElement('li');
+            pdfItem.classList.add('pdf-item');
+
+            // Crear una miniatura del PDF (imagen)
+            const pdfThumbnail = document.createElement('img');
+            pdfThumbnail.src = 'pdf-icon.png'; // 
+            pdfThumbnail.classList.add('pdf-thumbnail');
+            pdfItem.appendChild(pdfThumbnail);
+
+            // Agregar el comentario
+            const pdfComment = document.createElement('p');
+            pdfComment.textContent = `Comentario: ${comment}`;
+            pdfItem.appendChild(pdfComment);
+
+            // Agregar el PDF a la lista
+            pdfList.appendChild(pdfItem);
+
+            // Limpiar el formulario
+            pdfFileInput.value = '';
+            commentInput.value = '';
+        });
+    </script>
+</body>
+</html>

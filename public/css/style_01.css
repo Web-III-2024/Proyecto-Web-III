@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+}
+
+html,
+body {
+    color: #011D42;
+    height: 100%;
+    line-height: 14px;
+
+    padding-top: 60px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.linea_sep {
+    margin-top: 10px;
+}
+
+.centrar {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.etiqueta {
+    background-color: #F0C229;
+    border: 1px solid black;
+    display: block;
+    width: 100px;
+}
+
+.contenido {
+    min-height: calc(100% - 5rem);
+}
+
+.login {
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    min-width: 380px;
+}
+
+.tarjeta {
+    border: none !important;
+}
+
+.pie {
+    border-top: 2px rgb(66, 66, 66) solid;
+    font-size: 12px;
+    height: 4.5rem;
+    padding-top: 10px;
+}
+
+.div_pi {
+    float: left;
+    text-align: left;
+    width: 33%;
+}
+
+.div_pc {
+    border-left: 1px rgb(66, 66, 66) solid;
+    border-right: 1px rgb(66, 66, 66) solid;
+    float: left;
+    font-weight: bold;
+    text-align: center;
+    width: 33%;
+}
+
+.div_pd {
+    float: left;
+    text-align: right;
+    ;
+    width: 33%;
+}
+
+.contenedor-articles {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .contenedor-articles article {
+    width: 450px;
+    text-align: justify;
+  }
+  .foot{
+    margin-top: auto
+}
+
+input::file-selector-button {
+    font-weight: bold;
+    color: dodgerblue;
+    padding: 0.5em;
+    border: thin solid grey;
+    border-radius: 3px;
+  }
+
+.pdf{
+    width: 100%;
+    height: 500px;
+}
+
+.inves{
+    width: 350px;
+    height: 250px;
+}
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+}
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+.navbar{
+border-top: 1px solid #000000;
+border-bottom: 1px solid #000000;
+}
+
+.cancel{
+    font-size: 45px;
+    font-weight: 600;
+    display: inline-block;
+    transform: rotate(45deg);
+}
