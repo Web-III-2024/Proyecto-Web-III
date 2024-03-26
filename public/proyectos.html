@@ -164,6 +164,26 @@
       crossorigin="anonymous"
     ></script>
     <!-- Main script that contains the popup functionality -->
+
+    <script>
+      function checkLength(textareaId, alertId) {
+        var textarea = document.getElementById(textareaId);
+        var alertBox = document.getElementById(alertId);
+
+        textarea.oninput = function () {
+          if (textarea.value.length >= 500) {
+            alertBox.style.display = "block";
+          } else {
+            alertBox.style.display = "none";
+          }
+        };
+      }
+
+      checkLength("description", "descriptionAlert");
+      checkLength("conclusions", "conclusionsAlert");
+      checkLength("recommendations", "recommendationsAlert");
+    </script>
+
     <script defer src="js/inv/form.js"></script>
   </body>
 </html>

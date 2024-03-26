@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "proyectofinalwebiii2024"
-  }
+    "default": "proyectofinalwebiii2024",
+    "\\": "proyectofinalwebiii2024"
+  },
+  "targets": {},
+  "etags": {}
 }
