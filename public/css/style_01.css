@@ -4,6 +4,7 @@
 
 html,
 body {
+    min-height: 100vh;
     color: #011D42;
     height: 100%;
     line-height: 14px;
@@ -45,32 +46,29 @@ body {
 }
 
 .pie {
-    border-top: 2px rgb(66, 66, 66) solid;
+    border-top: 2px solid rgb(66, 66, 66);
     font-size: 12px;
-    height: 4.5rem;
     padding-top: 10px;
 }
 
-.div_pi {
-    float: left;
-    text-align: left;
-    width: 33%;
+/* Usar flexbox para organizar los elementos dentro del footer */
+.div_pc, .div_pd {
+    flex: 1; /* Cada división ocupará un tercio del espacio disponible */
+    text-align: center;
+    padding: 5px; /* Añade algo de padding para espaciado */
 }
 
 .div_pc {
-    border-left: 1px rgb(66, 66, 66) solid;
-    border-right: 1px rgb(66, 66, 66) solid;
-    float: left;
+    border-left: 1px solid rgb(66, 66, 66);
+    border-right: 1px solid rgb(66, 66, 66);
     font-weight: bold;
-    text-align: center;
-    width: 33%;
 }
 
-.div_pd {
-    float: left;
-    text-align: right;
-    ;
-    width: 33%;
+/* Asegúrate de que el footer se quede en la parte inferior */
+.pie {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 /* cambios aquii */
 .contenedor-articles {
@@ -127,6 +125,7 @@ input::file-selector-button {
 .navbar{
 border-top: 1px solid #000000;
 border-bottom: 1px solid #000000;
+margin-bottom: 50px;
 }
 
 .cancel{
