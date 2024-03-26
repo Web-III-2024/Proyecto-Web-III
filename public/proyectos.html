@@ -66,10 +66,18 @@
                     <a id="PryUpload" class="btn btn-primary">Enviar Formulario</a>
                   </div>
                   <div class="col">
-                    <textarea id="description" name="description" maxlength="500" required placeholder="Descripción del tema (Max 500 caracteres)" rows="8" cols="50"></textarea><br><br>
-                    <textarea id="conclusions" name="conclusions" maxlength="500" required placeholder="Conclusiones del trabajo (Max 500 caracteres)" rows="8" cols="50"></textarea><br><br>
+                    <textarea id="description" name="description" maxlength="500" required placeholder="Descripción del tema (Max 500 caracteres)" rows="8" cols="50"></textarea>
+                    <div id="descriptionAlert" style="color: red; display: none;">Has alcanzado el límite de 500 caracteres.</div>
+                    <br><br>
+                    
+                    <textarea id="conclusions" name="conclusions" maxlength="500" required placeholder="Conclusiones del trabajo (Max 500 caracteres)" rows="8" cols="50"></textarea>
+                    <div id="conclusionsAlert" style="color: red; display: none;">Has alcanzado el límite de 500 caracteres.</div>
+                    <br><br>
+                    
                     <textarea id="recommendations" name="recommendations" maxlength="500" required placeholder="Recomendaciones finales (500 caracteres)" rows="8" cols="50"></textarea>
-                  </div>
+                    <div id="recommendationsAlert" style="color: red; display: none;">Has alcanzado el límite de 500 caracteres.</div>
+                </div>
+                
                 </div>
         </form>
     </main>
@@ -84,6 +92,27 @@
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
     <!-- Main script that contains the popup functionality -->
+
+    <script>
+        function checkLength(textareaId, alertId) {
+          var textarea = document.getElementById(textareaId);
+          var alertBox = document.getElementById(alertId);
+      
+          textarea.oninput = function() {
+            if (textarea.value.length >= 500) {
+              alertBox.style.display = 'block';
+            } else {
+              alertBox.style.display = 'none';
+            }
+          };
+        }
+      
+        checkLength('description', 'descriptionAlert');
+        checkLength('conclusions', 'conclusionsAlert');
+        checkLength('recommendations', 'recommendationsAlert');
+      </script>
+      
+    
     <script defer src="js/inv/form.js"></script>
 </body>
 </html>
