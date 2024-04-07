@@ -1,0 +1,131 @@
+/* Estilos globales para el contenedor de la investigación */
+.investigacion-container {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Título y descripción de la investigación */
+.investigacion-container h5,
+.investigacion-container p {
+    margin: 0.5rem 0;
+}
+
+/* Estilos para el carrusel */
+.carousel {
+    position: relative;
+}
+
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-item {
+    position: relative;
+    display: none;
+    float: left;
+    width: 100%;
+    /* Se ha eliminado la altura fija para que el contenedor se ajuste al tamaño de la imagen */
+    /* Se ha eliminado el fondo negro */
+    text-align: center;
+}
+
+.carousel-item img {
+    max-height: 500px; /* Ajusta a tu preferencia */
+    width: auto; /* Mantener la proporción de aspecto de la imagen */
+    object-fit: contain; /* Ajusta para que la imagen se escale proporcionalmente */
+    margin: auto; /* Centrar imagen si no ocupa todo el ancho */
+    background: transparent; /* Asegura que el fondo de la imagen sea transparente */
+}
+
+
+
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    color: #fff;
+    text-align: center;
+    opacity: 0.5;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 0.9;
+}
+
+.carousel-control-prev {
+    left: 0;
+}
+
+.carousel-control-next {
+    right: 0;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: no-repeat 50%/100% 100%;
+}
+
+/* Indicadores de control del carrusel si los necesitas */
+.carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: #fff;
+    background-clip: padding-box;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    opacity: .5;
+}
+
+.carousel-indicators .active {
+    opacity: 1;
+}
+
+
+
+/* Estilo para la vista de cuadrícula */
+.investigacion-container-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Espacio entre imágenes */
+    margin-bottom: 2rem;
+}
+
+.imagen-cuadricula {
+    max-width: 200px; /* Ajusta al tamaño que prefieras */
+    width: 100%; /* Hace que la imagen sea responsive dentro del contenedor */
+    height: auto; /* Mantiene la relación de aspecto */
+    border: 1px solid #ddd; /* Un borde ligero si deseas */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra suave para un poco de profundidad */
+    border-radius: 4px; /* Bordes redondeados para un aspecto suave */
+}
+
+/* Estilos para el título y la descripción en la vista cuadrícula */
+.investigacion-container-grid h5,
+.investigacion-container-grid p {
+    width: 100%; /* Asegúrate de que el texto ocupe toda la anchura del contenedor */
+    padding: 0 10px; /* Agrega un poco de espacio interno */
+}
+
+/* Estilos para la información del autor */
+.autor-info {
+    font-size: 0.8rem; /* Ajusta el tamaño de la fuente al deseado */
+    color: #666; /* Color de letra más suave */
+    margin-top: 1rem; /* Espacio por encima de la información del autor */
+}
+

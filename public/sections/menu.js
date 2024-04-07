@@ -28,7 +28,7 @@ class Menu extends HTMLElement{
                     <a class="nav-link active" href="proyectos.html">Proyectos</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link active" href="agregar.html">Estudiantes</a>
+                    <a class="nav-link active" href="galeria.html">Galería</a>
                     </li>
                 </ul>
             </div>
