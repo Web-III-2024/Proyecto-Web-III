@@ -18,16 +18,17 @@ function closePopup() {
 function saveInvestigation() {
     var title = document.getElementById('titleInput').value;
     var des = document.getElementById('descriptionInput').value;
+    var rating = document.querySelector('input[name="rating"]:checked').value;
     var id = localStorage.getItem('DocID');
     // Aquí necesitas manejar la subida del archivo PDF, si es necesario
     db.collection('Pruebas').doc(id).collection('Comentarios').add({
         'Nombre': title,
-        'comentario': des
+        'comentario': des,
+        'rating': rating // Guardar el rating en la base de datos
     }).then(function(docRef) {
         location.reload();
     }).catch(function(FirebaseError) {
         alert("Error al subir la imagen: " + FirebaseError);
     });
-
 }
 
