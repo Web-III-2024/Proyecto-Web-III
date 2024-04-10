@@ -1,12 +1,8 @@
-// Asumiendo que firebaseConfig ya está definido en otro lugar y que Firebase se ha inicializado
-// Inicializamos Firestore aquí
-const db = firebase.firestore();
-
 document.addEventListener('DOMContentLoaded', function() {
     // Asignar eventos a los botones
     document.getElementById('addButton').addEventListener('click', openPopup);
-    document.getElementById('saveButton').addEventListener('click', saveInvestigation);
-    document.getElementById('cancelButton').addEventListener('click', closePopup);
+    document.getElementById('saveButton').addEventListener('click', saveInvestigation); // Asegúrate de tener este botón con id="saveButton" en tu HTML
+    document.getElementById('cancelButton').addEventListener('click', closePopup); // Asegúrate de tener este botón con id="cancelButton" en tu HTML
 
     // Cargar las investigaciones existentes
     updateInvestigationsList();
@@ -29,7 +25,7 @@ function saveInvestigation() {
 
     // Aquí necesitas manejar la subida del archivo PDF, si es necesario
 
-    var newInvestigationRef = db.collection('investigations').doc();
+    var newInvestigationRef = firebase.database().ref('investigations').push();
     newInvestigationRef.set({
         title: title,
         area: area,
@@ -52,21 +48,10 @@ function addInvestigationToTable(title, area) {
 }
 
 function updateInvestigationsList() {
-    db.collection('investigations').get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            var investigation = doc.data();
+    firebase.database().ref('investigations').once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            var investigation = childSnapshot.val();
             addInvestigationToTable(investigation.title, investigation.area);
-            // Aquí asumimos que quieres cargar imágenes adicionales si existen en tus datos
-            let img5 = document.getElementById('img5'); // Asegúrate de que este ID exista en tu HTML
-            let img6 = document.getElementById('img6'); // Asegúrate de que este ID exista en tu HTML
-            if (investigation.Imagen_5) {
-                img5.src = investigation.Imagen_5;
-            }
-            if (investigation.Imagen_6) {
-                img6.src = investigation.Imagen_6;
-            }
         });
-    }).catch(error => {
-        console.error("Error getting documents: ", error);
     });
 }
