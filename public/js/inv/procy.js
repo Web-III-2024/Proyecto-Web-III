@@ -50,17 +50,20 @@ window.onload = function() {
             pdf.setAttribute('src', doc.data().PDF);
 
             db.collection('Pruebas').doc(id).collection('Comentarios').get()
-                .then(function (query) {
-                    coment.innerHTML = '';
-                    var salida = '';
-                    query.forEach(function (doc) {
-                        salida += '<tr class="card-body p-2 d-flex align-items-center">';
-                        salida += '<td>' + doc.data().Nombre + '</td>';
-                        salida += '<td>' + doc.data().comentario + '</td>';
-                        salida += '</tr>';
-                    });
-                    coment.innerHTML = salida;
-                });
+
+            .then(function (query) {
+            coment.innerHTML = ''
+            var salida = ''
+            query.forEach(function (doc) {
+                salida += '<tr class="card-body p-2 d-flex align-items-center">'
+                 salida += '<td>'+ doc.data().Nombre + '</td>'
+                 salida += '<td>' + doc.data().rating + '</td>';
+
+                 salida += '<td>'+ doc.data().comentario + '</td>'
+                salida += '</tr>'
+                })
+            coment.innerHTML = salida
+        })
         } else {
             console.log("No such document!");
         }

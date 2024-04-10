@@ -17,41 +17,45 @@ const btnInsUser = document.querySelector('#btnInsUser')
 
 // assign button listener
 btnInsUser.addEventListener('click', function () {
-
   const archivo = txtArchi.files[0];
-  const nomarch = archivo.name;
   if(archivo == null){
-    alert('Debe seleccionar una imagen');
+      alert('Debe seleccionar una imagen');
   }else{
-    const metadata = {
-        contentType : archivo.type
-    }
-    const subir = container.child('fotos/'+nomarch).put(archivo, metadata);
-    subir
-        .then(snapshot => snapshot.ref.getDownloadURL())
-        .then( url =>{
-          auth.createUserWithEmailAndPassword(txtEmail.value, txtContra.value)
+      const metadata = {
+          contentType : archivo.type
+      };
+      auth.createUserWithEmailAndPassword(txtEmail.value, txtContra.value)
           .then((userCredential) => {
-            const user = userCredential.user
-            db.collection('datosUsuarios')
-              .add({
-                idemp: user.uid,
-                usuario: txtNombre.value,
-                email: user.email,
-                anho: txtAnho.value,
-                introduccion: txtIntro.value,
-                url:url
-              })
-              .then(function (docRef) {
-                alert("ID del registro: " + docRef.id);
-                limpiar();
-              })
-              .catch(function (FirebaseError) {
-                alert('Error al registrar datos del usuario.' + FirebaseError)})
-            });
-        });
-}
-})
+              const user = userCredential.user;
+              // Usar el UID del usuario como nombre del archivo
+              const nomarch = user.uid + "_" + archivo.name;
+              const subir = container.child('fotos/'+nomarch).put(archivo, metadata);
+              subir
+                  .then(snapshot => snapshot.ref.getDownloadURL())
+                  .then(url => {
+                      db.collection('datosUsuarios')
+                          .add({
+                              idemp: user.uid,
+                              usuario: txtNombre.value,
+                              email: user.email,
+                              anho: txtAnho.value,
+                              introduccion: txtIntro.value,
+                              url: url  // La URL de la imagen subida
+                          })
+                          .then(function (docRef) {
+                              alert("ID del registro: " + docRef.id);
+                              limpiar();
+                          })
+                          .catch(function (FirebaseError) {
+                              alert('Error al registrar datos del usuario.' + FirebaseError);
+                          });
+                  });
+          })
+          .catch((error) => {
+              alert('Error al crear usuario: ' + error.message);
+          });
+  }
+});
 
 function limpiar() {
   txtNombre.value = ''
