@@ -20,12 +20,14 @@ function saveInvestigation() {
     var des = document.getElementById('descriptionInput').value;
     var id = localStorage.getItem('DocID');
     var rating = document.querySelector('input[name="rating"]:checked').value;
-
+    var fechaActual = new Date();
+    var Fecha = fechaActual.getMonth() + 1 + '/' + fechaActual.getDate();
     // Aquí necesitas manejar la subida del archivo PDF, si es necesario
     db.collection('Pruebas').doc(id).collection('Comentarios').add({
         'Nombre': title,
         'comentario': des,
-        'rating': rating
+        'rating': rating,
+        'Fecha': Fecha 
     }).then(function(docRef) {
         location.reload();
     }).catch(function(FirebaseError) {
