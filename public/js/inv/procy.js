@@ -17,10 +17,28 @@ window.onload = function() {
             img2.src = doc.data().Imagen_2;
             img3.src = doc.data().Imagen_3;
             img4.src = doc.data().Imagen_4;
+<<<<<<< HEAD
 
             // Verificar si los elementos img5 e img6 existen antes de establecer su src
             if (img5) img5.src = doc.data().Imagen_5 || ''; // Usar un valor predeterminado si la URL está vacía
             if (img6) img6.src = doc.data().Imagen_6 || ''; // Usar un valor predeterminado si la URL está vacía
+=======
+            
+            db.collection('Pruebas').doc(id).collection('Comentarios').get()
+            .then(function (query) {
+            coment.innerHTML = ''
+            var salida = ''
+            query.forEach(function (doc) {
+                salida += '<tr class="card-body p-2 d-flex align-items-center">'
+                 salida += '<td>'+ doc.data().Nombre + '</td>'
+                 salida += '<td>' + doc.data().rating + '</td>';
+
+                 salida += '<td>'+ doc.data().comentario + '</td>'
+                salida += '</tr>'
+                })
+            coment.innerHTML = salida
+        })
+>>>>>>> d49c231551c8eca7d281772f6f0bf5d27d27b441
         } else {
             console.log("No such document!");
         }
