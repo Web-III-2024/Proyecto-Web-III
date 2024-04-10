@@ -41,7 +41,7 @@ class Menu extends HTMLElement {
                             </li>
                         </ul>
                         <div class="navbar-text" id="user-info" style="display: none;">
-                            <img id="user-img" src="" alt="User" style="width: 30px; height: 30px; border-radius: 50%;">
+                            <img id="user-img" src="" alt="User" style="width: 40px; height: 40px; border-radius: 50%;">
                             <span id="user-email"></span>
                         </div>
                     </div>

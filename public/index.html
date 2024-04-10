@@ -53,16 +53,21 @@
                 <option value="Artes">Artes</option>
             </select> <input type="button" class=" btn btn-danger btn-sm" value="X" id="btnReset"> <br /><br />
             <input type="button" value="Buscar" id="btnBuscar">
-            <table id="investigationsTable" class="table table-hover table-bordered">
-                <thead><tr>
+            <table id="tabla-proyectos" class="table">
+                <thead>
+                    <tr>
                         <th>Título de la Investigación</th>
                         <th>Área de Interés</th>
-                        <th>Autor(a)</th>
-                    </tr></thead>
-
+                        <th>Correo del Autor</th>
+                        <th>Descripción</th> <!-- Nueva columna para la descripción -->
+                        <th>Descargar PDF</th> <!-- Nueva columna para el botón de descarga -->
+                    </tr>
+                </thead>
                 <tbody id="tabla">
-                    <!-- Las filas de la tabla se agregarán aquí dinámicamente -->
-                </tbody></table>
+                    <!-- Las filas de la tabla se agregarán aquí dinámicamente desde JavaScript -->
+                </tbody>
+            </table>
+            
         </section>
     </main>
     
