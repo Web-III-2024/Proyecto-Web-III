@@ -44,7 +44,6 @@ window.onload = function() {
             query.forEach(function (doc) {
                 salida += '<tr class="card-body p-2 d-flex align-items-center">'
                  salida += '<td>'+ doc.data().Nombre + '</td>'
-                 salida += '<td>' + doc.data().rating + '</td>';
                  salida += '<td>'+ doc.data().comentario + '</td>'
                 salida += '</tr>'
                 })
