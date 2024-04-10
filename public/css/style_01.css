@@ -134,6 +134,10 @@ margin-bottom: 50px;
     display: inline-block;
     transform: rotate(45deg);
 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 79ac3f47dbc7f08f1f1082185073cd8ae2d4c8d0
 .rating {
     unicode-bidi: bidi-override;
     direction: rtl;
@@ -158,4 +162,9 @@ margin-bottom: 50px;
 }
 .rating > input {
     display: none;
+<<<<<<< HEAD
 }
+
+=======
+}
+>>>>>>> 79ac3f47dbc7f08f1f1082185073cd8ae2d4c8d0
