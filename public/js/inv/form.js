@@ -1,7 +1,8 @@
+// Referencias a Firebase y elementos del DOM
 var db = firebase.apps[0].firestore();
 var container = firebase.apps[0].storage().ref();
 const user = firebase.auth().currentUser;
-    
+
 var title = document.getElementById('title');
 var area = document.getElementById('area');
 var description = document.getElementById('description');
@@ -13,87 +14,73 @@ var Imagen_4 = document.getElementById('image4');
 var conclusions = document.getElementById('conclusions');
 var recommendations = document.getElementById('recommendations');
 
+// Referencias a los nuevos elementos de imagen (asumiendo que se han agregado al HTML)
+var Imagen_5 = document.getElementById('image5'); // Nuevo
+var Imagen_6 = document.getElementById('image6'); // Nuevo
+
 const PryUpload = document.querySelector('#PryUpload');
 
-PryUpload.addEventListener('click', function(){
-  const archivo = pdf.files[0];
-  const nomarch = archivo.name;
-  if(archivo == null){
-      alert('Debe seleccionar un pdf');
-  }else{
-      const metadata = {
-          contentType : archivo.type
-      }
-      const subir1 = container.child('doc/'+nomarch).put(archivo, metadata);
-      subir1.then(snapshot => snapshot.ref.getDownloadURL()).then( url =>{
-          const url1 = url;
-          const Ima1 = Imagen_1.files[0];
-          const noma1 = Ima1.name;
-          if(Ima1 == null){
-              alert('Debe seleccionar una imagen');
-          }else{
-              const metadata = {
-                  contentType : Ima1.type
-              }
-              const subir2 = container.child('Img/'+noma1).put(Ima1, metadata);
-              subir2.then(snapshot => snapshot.ref.getDownloadURL()).then( url =>{
-                  const url2 = url;
-                  const Ima2 = Imagen_2.files[0];
-                  const noma2 = Ima2.name;
-                  if(Ima2 == null){
-                  alert('Debe seleccionar una imagen');
-                  }else{
-                      const metadata = {
-                      contentType : Ima2.type
-                      }
-                      const subir3 = container.child('Img/'+noma2).put(Ima2, metadata);
-                      subir3.then(snapshot => snapshot.ref.getDownloadURL()).then( url =>{
-                          const url3 = url;
-                          const Ima3 = Imagen_3.files[0];
-                          const noma3 = Ima3.name;
-                          if(Ima3 == null){
-                          alert('Debe seleccionar una imagen');
-                          }else{
-                              const metadata = {
-                                  contentType : Ima3.type
-                              }
-                              const subir4 = container.child('Img/'+noma3).put(Ima3, metadata);
-                              subir4.then(snapshot => snapshot.ref.getDownloadURL()).then( url =>{
-                                  const url4 = url;
-                                  const Ima4 = Imagen_4.files[0];
-                                  const noma4 = Ima4.name;
-                                  if(Ima4 == null){
-                                      alert('Debe seleccionar una imagen');
-                                  }else{
-                                  const metadata = {
-                                      contentType : Ima4.type
-                                  }
-                                  const subir5 = container.child('Img/'+noma4).put(Ima4, metadata);
-                                      subir5.then(snapshot => snapshot.ref.getDownloadURL()).then( url =>{
-                                          const url5 = url;
-                                          db.collection("Pruebas").add({
-                                              "titulo" : title.value,
-                                              "area" : area.value,
-                                              "descripcion" : description.value,
-                                              "PDF" : url1,
-                                              "Imagen_1" : url2,
-                                              "Imagen_2" : url3,
-                                              "Imagen_3" : url4,
-                                              "Imagen_4" : url5,
-                                              "Conclusion" : conclusions.value,
-                                              "Recomendaciones" : recommendations.value,
-                                              "Correo": firebase.auth().currentUser.email
-                                          }).then(function(docRef) {
-                                              alert("ID del registro: " + docRef.id);
-                                          });
-                                      });
-                                  }
-                              });
-                          }
-                      });
-                  }
-              });
-          }
-      });
-  }
-});
+// Función para cargar imágenes y devolver promesas con sus URLs
+function uploadImage(imageElement) {
+    return new Promise((resolve, reject) => {
+        if (imageElement && imageElement.files.length > 0) {
+            const imageFile = imageElement.files[0];
+            const imageName = imageFile.name;
+            const metadata = { contentType: imageFile.type };
+            container.child('Img/' + imageName).put(imageFile, metadata)
+                .then(snapshot => snapshot.ref.getDownloadURL())
+                .then(resolve)
+                .catch(reject);
+        } else {
+            resolve(null); // Si no hay archivo, resuelve con null
+        }
+    });
+}
+
+// Función para cargar todos los archivos y luego guardar los datos
+function saveDocument() {
+    const archivo = pdf.files[0];
+    if (!archivo) {
+        alert('Debe seleccionar un pdf');
+        return;
+    }
+    const metadata = { contentType: archivo.type };
+  
+    container.child('doc/' + archivo.name).put(archivo, metadata)
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .then(pdfUrl => {
+            return Promise.all([
+                pdfUrl,
+                uploadImage(Imagen_1),
+                uploadImage(Imagen_2),
+                uploadImage(Imagen_3),
+                uploadImage(Imagen_4),
+                uploadImage(Imagen_5),
+                uploadImage(Imagen_6)
+            ]);
+        })
+        .then(urls => {
+            const [pdfUrl, ...imageUrls] = urls;
+            const documentData = {
+                "titulo": title.value,
+                "area": area.value,
+                "descripcion": description.value,
+                "PDF": pdfUrl,
+                "Conclusion": conclusions.value,
+                "Recomendaciones": recommendations.value,
+                "Correo": user ? user.email : null
+            };
+            imageUrls.forEach((url, index) => {
+                if (url) documentData[`Imagen_${index + 1}`] = url;
+            });
+            return db.collection("Pruebas").add(documentData);
+        })
+        .then(docRef => {
+            alert("ID del registro: " + docRef.id);
+        })
+        .catch(error => {
+            console.error("Error al subir archivos y guardar el documento:", error);
+        });
+}
+
+PryUpload.addEventListener('click', saveDocument);
