@@ -53,20 +53,37 @@
                 <option value="Artes">Artes</option>
             </select> <input type="button" class=" btn btn-danger btn-sm" value="X" id="btnReset"> <br /><br />
             <input type="button" value="Buscar" id="btnBuscar">
-            <table id="tabla-proyectos" class="table">
+            <table id="tabla-proyectos" class="table table-hover table-bordered">
                 <thead>
                     <tr>
                         <th>Título de la Investigación</th>
                         <th>Área de Interés</th>
                         <th>Correo del Autor</th>
-                        <th>Descripción</th> <!-- Nueva columna para la descripción -->
-                        <th>Descargar PDF</th> <!-- Nueva columna para el botón de descarga -->
+                        <th>Descripción</th>
+                        <th>Descargar PDF</th>
                     </tr>
                 </thead>
                 <tbody id="tabla">
                     <!-- Las filas de la tabla se agregarán aquí dinámicamente desde JavaScript -->
                 </tbody>
             </table>
+            
+            <!-- Modal para mostrar la descripción completa -->
+            <div class="modal fade" id="descripcionModal" tabindex="-1" aria-labelledby="descripcionModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="descripcionModalLabel">Descripción Completa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="descripcionCompleta"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             
         </section>
     </main>
