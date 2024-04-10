@@ -39,7 +39,7 @@ db.collection('Pruebas')
   salida += '</tr>'
   })
   tabla.innerHTML = salida
-})  
+})
 }
 
 
