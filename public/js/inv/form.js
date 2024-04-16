@@ -1,3 +1,4 @@
+const db = firebase.firestore();
 document.addEventListener('DOMContentLoaded', function() {
     var db = firebase.apps[0].firestore();
     var storageRef = firebase.apps[0].storage().ref();
@@ -17,6 +18,15 @@ document.addEventListener('DOMContentLoaded', function() {
       pdf: null,
       images: []
     };
+  // Listener de autenticación para verificar cuándo el usuario inicia sesión
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      console.log("Usuario autenticado:", user.email);
+      // Luego aquí puedes realizar las operaciones que requieran el correo electrónico del usuario
+    } else {
+      console.log("No hay usuario autenticado.");
+    }
+  });
   
     // Helper function to update the file preview
     function updateFilePreview() {
@@ -93,60 +103,72 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   
     // Upload files to Firebase
-    function uploadFiles() {
-      // Validate files
-      if (!selectedFiles.pdf) {
+  // Upload files to Firebase
+// Upload files to Firebase
+function uploadFiles() {
+    // Validate files
+    if (!selectedFiles.pdf) {
         alert('Por favor, selecciona un archivo PDF.');
         return;
-      }
-      if (selectedFiles.images.length < 4 || selectedFiles.images.length > 6) {
+    }
+    if (selectedFiles.images.length < 4 || selectedFiles.images.length > 6) {
         alert('Por favor, selecciona entre 4 y 6 archivos de imagen.');
         return;
-      }
-  
-      // Upload PDF
-      var pdfRef = storageRef.child('doc/' + selectedFiles.pdf.name);
-      pdfRef.put(selectedFiles.pdf).then(function(snapshot) {
+    }
+
+    // Upload PDF
+    var pdfRef = storageRef.child('doc/' + selectedFiles.pdf.name);
+    pdfRef.put(selectedFiles.pdf).then(function(snapshot) {
         return snapshot.ref.getDownloadURL();
-      }).then(function(pdfUrl) {
+    }).then(function(pdfUrl) {
         // Upload images
         var uploadPromises = selectedFiles.images.map(function(image, index) {
-          // Generar un nombre único para la imagen en Firebase Storage
-          var imageName = Date.now() + '_' + index + '_' + image.name;
-          var imageRef = storageRef.child('Img/' + imageName);
-          return imageRef.put(image).then(function(snapshot) {
-            // Guardar la URL de la imagen con el nombre original en Firestore
-            var originalName = image.name;
-            return snapshot.ref.getDownloadURL().then(function(url) {
-              return { name: originalName, url: url };
+            // Generar un nombre único para la imagen en Firebase Storage
+            var imageName = Date.now() + '_' + index + '_' + image.name;
+            var imageRef = storageRef.child('Img/' + imageName);
+            return imageRef.put(image).then(function(snapshot) {
+                // Guardar la URL de la imagen con el nombre original en Firestore
+                var originalName = image.name;
+                return snapshot.ref.getDownloadURL().then(function(url) {
+                    return { name: originalName, url: url };
+                });
             });
-          });
         });
         return Promise.all([pdfUrl, ...uploadPromises]);
-      }).then(function(urls) {
+    }).then(function(urls) {
         var [pdfUrl, ...imageData] = urls;
         // Add document data to Firestore
         var documentData = {
-          titulo: title.value,
-          area: area.value,
-          descripcion: description.value,
-          PDF: pdfUrl,
+            titulo: title.value,
+            area: area.value,
+            descripcion: description.value,
+            PDF: pdfUrl
         };
         // Mapear los datos de las imágenes con sus nombres originales en Firestore
         imageData.forEach(function(data, index) {
-          documentData[`Imagen_${index + 1}`] = data.url;
+            documentData[`Imagen_${index + 1}`] = data.url;
         });
         documentData.Conclusion = conclusions.value;
         documentData.Recomendaciones = recommendations.value;
-        documentData.Correo = user ? user.email : null;
-        
+
+        // Log the user's email to the console
+        console.log("Correo del usuario:", firebase.auth().currentUser.email);
+// Log the user's email to the console
+console.log("Correo del usuario:", firebase.auth().currentUser.email);
+
+documentData.Correo = firebase.auth().currentUser.email; // Obtener el correo electrónico del usuario
+return db.collection('Pruebas').add(documentData);
+
+        documentData.Correo = firebase.auth().currentUser.email; // Obtener el correo electrónico del usuario
         return db.collection('Pruebas').add(documentData);
-      }).then(function(docRef) {
+    }).then(function(docRef) {
         alert('¡Documento subido exitosamente!');
-      }).catch(function(error) {
+    }).catch(function(error) {
         console.error('Error al subir el documento:', error);
-      });
-    }
+    });
+}
+
+  
   
   
     uploadButton.addEventListener('click', uploadFiles);
@@ -170,4 +192,3 @@ document.addEventListener('DOMContentLoaded', function() {
   
     showImageFields(0); // Mostrar inicialmente 0 campos de imagen
   });
-  
