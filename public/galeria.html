@@ -42,9 +42,28 @@
     </header>
     
     <main>
-        <button id="toggleView">Cambiar Vista</button>
-        <div id="galeria-carruseles" class="carrusel-view"></div>
-    </main>
+    <div id="filtros">
+        <label for="filtroAutor">Filtrar por Autor:</label>
+        <select id="filtroAutor">
+            <option value="Todos">Todos</option>
+            <!-- Opciones de autores se cargarán dinámicamente -->
+        </select>
+
+        <label for="filtroArea">Filtrar por Área:</label>
+        <select id="filtroArea">
+            <option value="Todos">Todos</option>
+            <!-- Opciones de áreas se cargarán dinámicamente -->
+        </select>
+
+        <!-- <label for="filtroComentarios">Filtrar por Comentarios:</label>
+        <input type="text" id="filtroComentarios" placeholder="Buscar comentarios"> -->
+    </div>
+    
+    <button id="toggleView">Cambiar Vista</button>
+    <div id="galeria-carruseles" class="carrusel-view"></div>
+</main>
+
+    
     
     
     
