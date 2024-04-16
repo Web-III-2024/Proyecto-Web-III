@@ -1,0 +1,26 @@
+#drop-area {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  #file-preview {
+    margin-top: 20px;
+  }
+  
+  .file-preview-item {
+    margin: 10px;
+    display: inline-block;
+    position: relative;
+  }
+  
+  .file-preview-item .delete-file {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  

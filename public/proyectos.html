@@ -17,6 +17,8 @@
   <!-- Custom styles -->
   <link rel="stylesheet" href="css/style_01.css" />
   <link rel="stylesheet" href="css/styleindex.css" />
+  <link rel="stylesheet" href="css/formularioProyectos.css" />
+
 
   <!-- References Firebase libraries -->
   <!-- Update the version number as needed -->
@@ -59,15 +61,16 @@
             <option value="Artes">Artes</option>
           </select>
           <br /><br />
-          <label for="pdf">Documento PDF (investigación):</label><br />
-          <input type="file" id="pdf" name="pdf" accept="application/pdf" required /><br /><br />
-          <label for="image1">6 imágenes relacionadas con la investigación:</label><br />
-<input type="file" id="image1" class="FileU" accept="image/" required /><br /><br />
-<input type="file" id="image2" class="FileU" accept="image/" required /><br /><br />
-<input type="file" id="image3" class="FileU" accept="image/" required /><br /><br />
-<input type="file" id="image4" class="FileU" accept="image/" required /><br /><br />
-<input type="file" id="image5" class="FileU" accept="image/" required /><br /><br />
-<input type="file" id="image6" class="FileU" accept="image/" required /><br /><br />
+          <div id="drop-area">
+            <form class="my-form">
+              <p>Arrastra y suelta tu PDF y entre 4 a 6 imágenes aquí, o haz clic para seleccionarlos</p>
+              <input type="file" id="file-input" multiple accept="image/*,application/pdf">
+              <label for="file-input">Seleccionar archivos</label>
+              <div id="file-preview"></div>
+            </form>
+          </div>
+          
+          
 
 
           <a id="PryUpload" class="btn btn-primary">Enviar Formulario</a>

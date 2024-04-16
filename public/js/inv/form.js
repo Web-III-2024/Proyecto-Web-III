@@ -1,86 +1,173 @@
-// Referencias a Firebase y elementos del DOM
-var db = firebase.apps[0].firestore();
-var container = firebase.apps[0].storage().ref();
-const user = firebase.auth().currentUser;
-
-var title = document.getElementById('title');
-var area = document.getElementById('area');
-var description = document.getElementById('description');
-var pdf = document.getElementById('pdf');
-var Imagen_1 = document.getElementById('image1');
-var Imagen_2 = document.getElementById('image2');
-var Imagen_3 = document.getElementById('image3');
-var Imagen_4 = document.getElementById('image4');
-var conclusions = document.getElementById('conclusions');
-var recommendations = document.getElementById('recommendations');
-
-// Referencias a los nuevos elementos de imagen (asumiendo que se han agregado al HTML)
-var Imagen_5 = document.getElementById('image5'); // Nuevo
-var Imagen_6 = document.getElementById('image6'); // Nuevo
-
-const PryUpload = document.querySelector('#PryUpload');
-
-// Función para cargar imágenes y devolver promesas con sus URLs
-function uploadImage(imageElement) {
-    return new Promise((resolve, reject) => {
-        if (imageElement && imageElement.files.length > 0) {
-            const imageFile = imageElement.files[0];
-            const imageName = imageFile.name;
-            const metadata = { contentType: imageFile.type };
-            container.child('Img/' + imageName).put(imageFile, metadata)
-                .then(snapshot => snapshot.ref.getDownloadURL())
-                .then(resolve)
-                .catch(reject);
-        } else {
-            resolve(null); // Si no hay archivo, resuelve con null
-        }
-    });
-}
-
-// Función para cargar todos los archivos y luego guardar los datos
-function saveDocument() {
-    const archivo = pdf.files[0];
-    if (!archivo) {
-        alert('Debe seleccionar un pdf');
-        return;
-    }
-    const metadata = { contentType: archivo.type };
+document.addEventListener('DOMContentLoaded', function() {
+    var db = firebase.apps[0].firestore();
+    var storageRef = firebase.apps[0].storage().ref();
+    var user = firebase.auth().currentUser;
   
-    container.child('doc/' + archivo.name).put(archivo, metadata)
-        .then(snapshot => snapshot.ref.getDownloadURL())
-        .then(pdfUrl => {
-            return Promise.all([
-                pdfUrl,
-                uploadImage(Imagen_1),
-                uploadImage(Imagen_2),
-                uploadImage(Imagen_3),
-                uploadImage(Imagen_4),
-                uploadImage(Imagen_5),
-                uploadImage(Imagen_6)
-            ]);
-        })
-        .then(urls => {
-            const [pdfUrl, ...imageUrls] = urls;
-            const documentData = {
-                "titulo": title.value,
-                "area": area.value,
-                "descripcion": description.value,
-                "PDF": pdfUrl,
-                "Conclusion": conclusions.value,
-                "Recomendaciones": recommendations.value,
-                "Correo": user ? user.email : null
-            };
-            imageUrls.forEach((url, index) => {
-                if (url) documentData[`Imagen_${index + 1}`] = url;
+    var title = document.getElementById('title');
+    var area = document.getElementById('area');
+    var description = document.getElementById('description');
+    var conclusions = document.getElementById('conclusions');
+    var recommendations = document.getElementById('recommendations');
+    var fileInput = document.getElementById('file-input');
+    var dropArea = document.getElementById('drop-area');
+    var uploadButton = document.getElementById('PryUpload');
+    var filePreview = document.getElementById('file-preview');
+  
+    var selectedFiles = {
+      pdf: null,
+      images: []
+    };
+  
+    // Helper function to update the file preview
+    function updateFilePreview() {
+      filePreview.innerHTML = '';
+      if (selectedFiles.pdf) {
+        filePreview.innerHTML += `<div>${selectedFiles.pdf.name}</div>`;
+      }
+      selectedFiles.images.forEach((file, index) => {
+        filePreview.innerHTML += `<div>${file.name} <button onclick="removeFile(${index})">X</button></div>`;
+      });
+    }
+  
+    // Remove file from selectedFiles and update preview
+    window.removeFile = function(index) {
+      if (index === -1) {
+        selectedFiles.pdf = null;
+      } else {
+        selectedFiles.images.splice(index, 1);
+      }
+      updateFilePreview();
+    };
+  
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, preventDefaults, false);
+      document.body.addEventListener(eventName, preventDefaults, false);
+    });
+  
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  
+    // Highlight drop area when item is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, highlight, false);
+    });
+  
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, unhighlight, false);
+    });
+  
+    function highlight() {
+      dropArea.classList.add('highlight');
+    }
+  
+    function unhighlight() {
+      dropArea.classList.remove('highlight');
+    }
+  
+    // Handle dropped files
+    dropArea.addEventListener('drop', handleDrop, false);
+  
+    function handleDrop(e) {
+      var dt = e.dataTransfer;
+      var files = dt.files;
+      handleFiles(files);
+    }
+  
+    // Handle file selection
+    fileInput.addEventListener('change', function(e) {
+      handleFiles(e.target.files);
+    });
+  
+    function handleFiles(files) {
+      for (let i = 0, len = files.length; i < len; i++) {
+        if (files[i].type === 'application/pdf') {
+          selectedFiles.pdf = files[i];
+        } else if (files[i].type.startsWith('image/')) {
+          selectedFiles.images.push(files[i]);
+        }
+      }
+      updateFilePreview();
+    }
+  
+    // Upload files to Firebase
+    function uploadFiles() {
+      // Validate files
+      if (!selectedFiles.pdf) {
+        alert('Por favor, selecciona un archivo PDF.');
+        return;
+      }
+      if (selectedFiles.images.length < 4 || selectedFiles.images.length > 6) {
+        alert('Por favor, selecciona entre 4 y 6 archivos de imagen.');
+        return;
+      }
+  
+      // Upload PDF
+      var pdfRef = storageRef.child('doc/' + selectedFiles.pdf.name);
+      pdfRef.put(selectedFiles.pdf).then(function(snapshot) {
+        return snapshot.ref.getDownloadURL();
+      }).then(function(pdfUrl) {
+        // Upload images
+        var uploadPromises = selectedFiles.images.map(function(image, index) {
+          // Generar un nombre único para la imagen en Firebase Storage
+          var imageName = Date.now() + '_' + index + '_' + image.name;
+          var imageRef = storageRef.child('Img/' + imageName);
+          return imageRef.put(image).then(function(snapshot) {
+            // Guardar la URL de la imagen con el nombre original en Firestore
+            var originalName = image.name;
+            return snapshot.ref.getDownloadURL().then(function(url) {
+              return { name: originalName, url: url };
             });
-            return db.collection("Pruebas").add(documentData);
-        })
-        .then(docRef => {
-            alert("ID del registro: " + docRef.id);
-        })
-        .catch(error => {
-            console.error("Error al subir archivos y guardar el documento:", error);
+          });
         });
-}
-
-PryUpload.addEventListener('click', saveDocument);
+        return Promise.all([pdfUrl, ...uploadPromises]);
+      }).then(function(urls) {
+        var [pdfUrl, ...imageData] = urls;
+        // Add document data to Firestore
+        var documentData = {
+          titulo: title.value,
+          area: area.value,
+          descripcion: description.value,
+          PDF: pdfUrl,
+        };
+        // Mapear los datos de las imágenes con sus nombres originales en Firestore
+        imageData.forEach(function(data, index) {
+          documentData[`Imagen_${index + 1}`] = data.url;
+        });
+        documentData.Conclusion = conclusions.value;
+        documentData.Recomendaciones = recommendations.value;
+        documentData.Correo = user ? user.email : null;
+        
+        return db.collection('Pruebas').add(documentData);
+      }).then(function(docRef) {
+        alert('¡Documento subido exitosamente!');
+      }).catch(function(error) {
+        console.error('Error al subir el documento:', error);
+      });
+    }
+  
+  
+    uploadButton.addEventListener('click', uploadFiles);
+  
+    // Mostrar solo los campos de imagen necesarios
+    function showImageFields(numImages) {
+      var imageFields = document.querySelectorAll('.image-field');
+      for (var i = 0; i < imageFields.length; i++) {
+        if (i < numImages) {
+          imageFields[i].style.display = 'block';
+        } else {
+          imageFields[i].style.display = 'none';
+        }
+      }
+    }
+  
+    // Actualizar la visualización de los campos de imagen al cambiar la cantidad de imágenes seleccionadas
+    fileInput.addEventListener('change', function() {
+      showImageFields(selectedFiles.images.length);
+    });
+  
+    showImageFields(0); // Mostrar inicialmente 0 campos de imagen
+  });
+  
