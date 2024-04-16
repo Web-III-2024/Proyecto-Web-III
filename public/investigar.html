@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <script src="https://kit.fontawesome.com/2c7bfef965.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/2c7bfef965.js"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
 
     <!-- Custom styles -->
-    <link rel="stylesheet" href="css/style_01.css">
-    <link rel="stylesheet" href="css/styleindex.css">
+    <link rel="stylesheet" href="css/style_01.css" />
+    <link rel="stylesheet" href="css/styleindex.css" />
 
     <!-- References Firebase libraries -->
     <!-- Update the version number as needed -->
@@ -25,100 +32,72 @@
     <!-- Initialized firebase object -->
     <script defer src="/__/firebase/init.js"></script>
 
-        <!-- Custom styles -->
-        <!-- Call menu and footer sections -->
+    <!-- Custom styles -->
+    <!-- Call menu and footer sections -->
     <script src="sections/menu.js" defer></script>
     <script src="sections/footer.js" defer></script>
 
-        
     <title>Investigación de Estudiante</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <!-- Header content using menu-component -->
-        <menu-component></menu-component>        
+      <!-- Header content using menu-component -->
+      <menu-component></menu-component>
     </header>
-    <div class="row">
-        <div class="col">       
-            <h1 id="Title"  value="2">Cargando...</h1><br>
-            <h3>
-                Area de enfoque de
-                <small id="area"class="text-muted">Area</small>
-            </h3>
-            <figure>
-                <blockquote class="blockquote">
-                  <h5 id="auth" value="2">Autor</h5>
-                </blockquote>
-                <figcaption class="blockquote-footer">
-                  <label for="auth">Autor(a) de trabajo</label>
-                </figcaption>
-              </figure>                     
-            <p id="description"value="2">descripción</p>
-            <p id="conclu" value="2">conclusiones</p>
-            <label for="reco" class="h5">Recomendaciones:</label>
-            <p id="reco" value="2">Recomendaciones</p>
-            <br><br>
-            <button id="addButton" class="btn btn-secondary">Agregar Comentario</button>
-            <div class="overlay" id="overlay"></div>
-            <div class="popup" id="addPopup">
-                <h3>Agregar Comentario</h3>
-                <input type="text" id="titleInput" placeholder="Nombre" required>
-                <br><br>
-                <div class="rating">
-                    <input type="radio" id="star5" name="rating" value="5">
-                    <label for="star5">☆</label>
-                    <input type="radio" id="star4" name="rating" value="4">
-                    <label for="star4">☆</label>
-                    <input type="radio" id="star3" name="rating" value="3">
-                    <label for="star3">☆</label>
-                    <input type="radio" id="star2" name="rating" value="2">
-                    <label for="star2">☆</label>
-                    <input type="radio" id="star1" name="rating" value="1">
-                    <label for="star1">☆</label>
-                </div>
-                <br><br>
-                <textarea id="descriptionInput" placeholder="Comentario" maxlength="500" rows="8" cols="50" required></textarea>
-                <br><br>
-                <button id="saveButton" class="btn btn-outline-info">Guardar</button>
-                <button id="cancelButton" class="btn btn-outline-warning">Cancelar</button>
-              </div>
-             </div>
-        <div class="col" value="2">
-            <p class="lead">Documentos de la investigación</p>
-            <embed class="pdf" id="pdf" src="" type="application/pdf">
-            <img class="inves" id="img1" src="" alt="">
-            <img class="inves" id="img2" src="" alt="">
-            <img class="inves" id="img3" src="" alt="">
-            <img class="inves" id="img4" src="" alt="">
-            <img class="inves" id="img5" src="" alt="">
-            <img class="inves" id="img6" src="" alt="">
-            
+    <main>
+        <div class="row" id="mainContent">
+            <!-- Contenido principal se cargará dinámicamente aquí -->
         </div>
-    </div>
-    <div class="row">
-        <h2>Comentarios</h2>
-        <table class="card table table-bordered w-auto">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Rating</th>
-                    <th>Comentario</th>
-                    <th>Fecha</th>
-                </tr>
-            </thead>
-            <tbody id="coment"></tbody>
-        </table>
-    </div>
-
-    <footer style="position: relative; left: 0; bottom: 0; width: 100%;">
-        <!-- Footer content using footer-component -->
-        <footer-component></footer-component>
+        
+        <button id="addButton" class="btn btn-secondary">Agregar Comentario</button>
+        <div class="overlay" id="overlay"></div>
+        <div class="popup" id="addPopup">
+            <h3>Agregar Comentario</h3>
+            <input type="text" id="titleInput" placeholder="Nombre" required>
+            <br><br>
+            <div class="rating">
+                <input type="radio" id="star5" name="rating" value="5">
+                <label for="star5">☆</label>
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4">☆</label>
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3">☆</label>
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2">☆</label>
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1">☆</label>
+            </div>
+            <br><br>
+            <textarea id="descriptionInput" placeholder="Comentario" maxlength="500" rows="8" cols="50" required></textarea>
+            <br><br>
+            <button id="saveButton" class="btn btn-outline-info">Guardar</button>
+            <button id="cancelButton" class="btn btn-outline-warning">Cancelar</button>
+        </div>
+    
+        <!-- Botones para ordenar comentarios -->
+        <div>
+            <button onclick="sortCommentsByDateAsc()" class="btn btn-primary">Ordenar por Fecha Ascendente</button>
+            <button onclick="sortCommentsByDateDesc()" class="btn btn-primary">Ordenar por Fecha Descendente</button>
+            <button onclick="sortCommentsByRanking()" class="btn btn-primary">Ordenar por Ranking</button>
+        </div>
+        
+    </main>
+    
+    
+    
+    
+    
+    <footer style="position: relative; left: 0; bottom: 0; width: 100%">
+      <!-- Footer content using footer-component -->
+      <footer-component></footer-component>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
-    <!-- Main script that contains the popup functionality -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+
     <script defer src="js/inv/procy.js"></script>
     <script defer src="js/inv/comen.js"></script>
-</body>
+  </body>
 </html>
