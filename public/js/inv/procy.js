@@ -160,28 +160,33 @@ document.getElementById('saveButton').addEventListener('click', function() {
 // Funciones para ordenar comentarios
 function sortCommentsByDateAsc() {
     document.getElementById('mainContent').innerHTML = ''; // Limpiar contenido principal
+
     loadPageContent();
     loadComments('FechaAsc');
 }
 
 function sortCommentsByDateDesc() {
     document.getElementById('mainContent').innerHTML = ''; // Limpiar contenido principal
+
     loadPageContent();
     loadComments('FechaDesc');
 }
 function sortCommentsByRanking() {
     document.getElementById('mainContent').innerHTML = ''; // Limpiar contenido principal
     loadPageContent();
+
     loadComments('RankingAsc'); // Ordenar por ranking de menor a mayor
 }
 function sortCommentsByRankingAsc() {
     document.getElementById('mainContent').innerHTML = ''; // Limpiar contenido principal
     loadPageContent();
+
     loadComments('RankingAsc');
 }
 
 function sortCommentsByRankingDesc() {
     document.getElementById('mainContent').innerHTML = ''; // Limpiar contenido principal
     loadPageContent();
+
     loadComments('RankingDesc');
 }
