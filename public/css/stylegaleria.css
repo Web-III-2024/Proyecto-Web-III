@@ -39,8 +39,6 @@
     background: transparent; /* Asegura que el fondo de la imagen sea transparente */
 }
 
-
-
 .carousel-control-prev,
 .carousel-control-next {
     position: absolute;
@@ -68,12 +66,22 @@
     right: 0;
 }
 
+/* Estilo para la flecha del carrusel */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     display: inline-block;
-    width: 20px;
-    height: 20px;
-    background: no-repeat 50%/100% 100%;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.carousel-control-prev-icon {
+    border-right: 15px solid #000; /* Color negro para la flecha */
+}
+
+.carousel-control-next-icon {
+    border-left: 15px solid #000; /* Color negro para la flecha */
 }
 
 /* Indicadores de control del carrusel si los necesitas */
@@ -95,8 +103,6 @@
     opacity: 1;
 }
 
-
-
 /* Estilo para la vista de cuadrícula */
 .investigacion-container-grid {
     display: flex;
@@ -106,25 +112,59 @@
     margin-bottom: 2rem;
 }
 
-.imagen-cuadricula {
-    max-width: 200px; /* Ajusta al tamaño que prefieras */
-    width: 100%; /* Hace que la imagen sea responsive dentro del contenedor */
-    height: auto; /* Mantiene la relación de aspecto */
-    border: 1px solid #ddd; /* Un borde ligero si deseas */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra suave para un poco de profundidad */
-    border-radius: 4px; /* Bordes redondeados para un aspecto suave */
+/* Estilo para los botones de flecha */
+.btn-flecha {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 48px; /* Tamaño grande para las flechas */
+    color: #000; /* Color negro para las flechas */
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px; /* Ancho de cada flecha */
+    height: 200px; /* Altura de cada flecha */
+    border-radius: 50%; /* Hacer las flechas redondas */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra suave para las flechas */
+}
+
+.btn-flecha:hover {
+    color: #272525; /* Cambio de color al pasar el ratón por encima */
 }
 
 /* Estilos para el título y la descripción en la vista cuadrícula */
 .investigacion-container-grid h5,
 .investigacion-container-grid p {
-    width: 100%; /* Asegúrate de que el texto ocupe toda la anchura del contenedor */
-    padding: 0 10px; /* Agrega un poco de espacio interno */
+    display: none; /* Ocultar título y descripción */
 }
 
 /* Estilos para la información del autor */
 .autor-info {
-    font-size: 0.8rem; /* Ajusta el tamaño de la fuente al deseado */
-    color: #666; /* Color de letra más suave */
-    margin-top: 1rem; /* Espacio por encima de la información del autor */
+    display: none; /* Ocultar información del autor */
+}
+
+/* Frontend estético con colores pasteles */
+:root {
+    --color-primario: #9b9cff; /* Color primario */
+    --color-secundario: #c2f749; /* Color secundario */
+    --color-fondo: #f5f5f5; /* Color de fondo */
+}
+
+body {
+    background-color: var(--color-fondo);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    background-color: var(--color-primario);
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: var(--color-secundario);
+}
+
+.carousel-indicators .active {
+    background-color: var(--color-primario);
 }
