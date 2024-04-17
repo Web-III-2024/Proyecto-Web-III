@@ -102,6 +102,27 @@ function populateSelect(selectElement, options) {
     });
 }
 
+function handleTableClick(e) {
+    // Verifica si el clic fue en un botón
+    if (e.target.tagName === 'BUTTON') {
+        if (e.target.dataset.action === 'leer-mas') {
+            const descripcion = e.target.getAttribute('data-description');
+            mostrarDescripcion(descripcion);
+        } else if (e.target.dataset.action === 'descargar-pdf') {
+            const pdfUrl = e.target.getAttribute('data-pdf-url');
+            descargarPdf(pdfUrl);
+        }
+    } else {
+        // Asumiendo que los clics fuera de los botones deberían llevar al detalle de la investigación
+        const row = e.target.closest('tr');
+        if (row) {
+            const id = row.getAttribute('data-id');
+            if (id) {
+                Page(id);
+            }
+        }
+    }
+}
 
 
 function mostrarDescripcion(descripcion) {
