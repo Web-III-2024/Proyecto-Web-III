@@ -217,4 +217,11 @@ margin-bottom: 50px;
     background-color: #f8f9fa;
 }
 
+.image-invent-style {
+    position: relative;
+    display: none;
+    float: left;
+    width: 100%;
+    text-align: center;
+}
 

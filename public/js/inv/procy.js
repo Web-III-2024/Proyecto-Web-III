@@ -57,11 +57,11 @@ function createDynamicContent(data) {
             const imgElement = document.createElement('img');
             imgElement.setAttribute('src', imageUrl);
             imgElement.setAttribute('alt', `Imagen ${i}`);
+            imgElement.classList.add('image-invent-style'); 
             mainContent.appendChild(imgElement);
         }
     }
-
-
+    
     // Cargar PDF dinámicamente
     const pdfUrl = data.PDF;
     if (pdfUrl) {
