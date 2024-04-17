@@ -61,6 +61,7 @@ function createDynamicContent(data) {
         }
     }
 
+
     // Cargar PDF dinámicamente
     const pdfUrl = data.PDF;
     if (pdfUrl) {
