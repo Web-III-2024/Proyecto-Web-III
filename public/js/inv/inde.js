@@ -5,63 +5,109 @@ const area = document.querySelector('#area');
 const tablaProyectos = document.querySelector('#tabla');
 const btnReset = document.querySelector('#btnReset');
 
-window.onload = All();
+window.onload = function() {
+    All();
 
-btnReset.addEventListener('click', function(){ All(); });
+    // Delegación de eventos para manejar clics en la tabla
+    tablaProyectos.addEventListener('click', function(e) {
+        // Manejo del clic en las filas para la navegación
+        const row = e.target.closest('tr');
+        if (row && e.target.tagName !== 'BUTTON') {
+            const id = row.getAttribute('data-id');
+            if (id) {
+                Page(id);
+            }
+        }
 
-btnBuscar.addEventListener('click', function(){
-  db.collection('Pruebas').where('area', '==', area.value)
-  .get()
-  .then(function (query) {
-    tablaProyectos.innerHTML = '';
-    var salida = '';
-    query.forEach(function (doc) {
-        salida += '<tr onclick="Page(\''+  doc.id +'\')">';
-        salida += '<td>'+ doc.data().titulo + '</td>';
-        salida += '<td>'+ doc.data().area + '</td>';
-        salida += '<td>'+ doc.data().Correo + '</td>';
-        salida += '<td>'+ doc.data().descripcion + '</td>'; // Mostrar la descripción en la tabla
-        salida += `<td><button onclick="descargarPdf('${doc.data().PDF}')">Descargar PDF</button></td>`; // Botón de descarga del PDF
-        salida += '</tr>';
+        // Manejo del clic en los botones dentro de las filas
+        if (e.target.tagName === 'BUTTON') {
+            const button = e.target;
+            if (button.getAttribute('data-action') === 'leer-mas') {
+                const descripcion = button.getAttribute('data-description');
+                mostrarDescripcion(descripcion);
+            } else if (button.getAttribute('data-action') === 'descargar-pdf') {
+                const pdfUrl = button.getAttribute('data-pdf-url');
+                descargarPdf(pdfUrl);
+            }
+        }
     });
-    tablaProyectos.innerHTML = salida;
-  });
-});
 
-function All(){
-  db.collection('Pruebas')
-  .get()
-  .then(function (query) {
-    tablaProyectos.innerHTML = '';
-    var salida = '';
-    query.forEach(function (doc) {
-        salida += '<tr onclick="Page(\''+  doc.id +'\')">';
-        salida += '<td>'+ doc.data().titulo + '</td>';
-        salida += '<td>'+ doc.data().area + '</td>';
-        salida += '<td>'+ doc.data().Correo + '</td>';
-        salida += '<td>'+ doc.data().descripcion + '</td>'; // Mostrar la descripción en la tabla
-        salida += `<td><button onclick="descargarPdf('${doc.data().PDF}')">Descargar PDF</button></td>`; // Botón de descarga del PDF
-        salida += '</tr>';
-    });
-    tablaProyectos.innerHTML = salida;
-  });
+    btnReset.addEventListener('click', function() { All(); });
+    btnBuscar.addEventListener('click', buscarProyectos);
 }
 
-function Page(id){
-  var Info = db.collection('Pruebas').doc(id);
+function All() {
+    db.collection('Pruebas').get().then(function (querySnapshot) {
+        tablaProyectos.innerHTML = '';
+        querySnapshot.forEach(function (doc) {
+            const proyecto = doc.data();
+            const fila = document.createElement('tr');
+            fila.setAttribute('data-id', doc.id);
 
-  Info.get().then((doc) => {
-    if (doc.exists) {
-      localStorage.setItem('DocID', doc.id);
-      window.location.href = "investigar.html"; 
-    } else {
-        console.log("No such document!");
-    }
-}).catch((error) => {
-    console.log("Error getting document:", error);
-});
+            fila.innerHTML = `
+                <td>${proyecto.titulo}</td>
+                <td>${proyecto.area}</td>
+                <td>${proyecto.Correo}</td>
+                <td>
+                    ${proyecto.descripcion.length > 100 ? proyecto.descripcion.substring(0, 100) + '...' : proyecto.descripcion}
+                    <button class="btn btn-link" data-action="leer-mas" data-description="${proyecto.descripcion}" data-bs-toggle="modal" data-bs-target="#descripcionModal">Leer más</button>
+                </td>
+                <td><button data-action="descargar-pdf" data-pdf-url="${proyecto.PDF}" class="btn btn-primary">Descargar PDF</button></td>
+            `;
+            tablaProyectos.appendChild(fila);
+        });
+    }).catch(function (error) {
+        console.error('Error al obtener proyectos:', error);
+    });
+}
+
+function buscarProyectos() {
+    db.collection('Pruebas').where('area', '==', area.value)
+        .get()
+        .then(function (query) {
+            tablaProyectos.innerHTML = '';
+            query.forEach(function (doc) {
+                const data = doc.data();
+                const fila = document.createElement('tr');
+                fila.setAttribute('data-id', doc.id);
+
+                fila.innerHTML = `
+                    <td>${data.titulo}</td>
+                    <td>${data.area}</td>
+                    <td>${data.Correo}</td>
+                    <td>
+                        ${data.descripcion.length > 100 ? data.descripcion.substring(0, 100) + '...' : data.descripcion}
+                        <button class="btn btn-link" data-action="leer-mas" data-description="${data.descripcion}" data-bs-toggle="modal" data-bs-target="#descripcionModal">Leer más</button>
+                    </td>
+                    <td><button data-action="descargar-pdf" data-pdf-url="${data.PDF}" class="btn btn-primary">Descargar PDF</button></td>
+                `;
+                tablaProyectos.appendChild(fila);
+            });
+        })
+        .catch(error => {
+            console.error('Error al filtrar proyectos:', error);
+        });
+}
+
+function mostrarDescripcion(descripcion) {
+    const descripcionCompleta = document.getElementById('descripcionCompleta');
+    descripcionCompleta.textContent = descripcion;
+}
+
+function Page(id) {
+    var Info = db.collection('Pruebas').doc(id);
+    Info.get().then((doc) => {
+        if (doc.exists) {
+            localStorage.setItem('DocID', doc.id);
+            window.location.href = "investigar.html";
+        } else {
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.error("Error getting document:", error);
+    });
 }
 
 function descargarPdf(pdfUrl) {
-    window.open(pdfUrl, '_blank'); // Abre el PDF en una nueva pestaña
+    window.open(pdfUrl, '_blank');
 }

@@ -103,33 +103,40 @@ body {
   footer p {
     margin: 0;
   }
-  
+
+  /* Estilos CSS para el menú *//* Estilos CSS para el menú */
 /* Estilos CSS para el menú */
-.container-fluid {
-  position: relative; /* Establece el contenedor del menú como referencia para el posicionamiento absoluto */
-}
-
-#navbarNavDropdown {
-  flex-grow: 1;
-}
-
+/* Agrega un margen a la derecha para separar el usuario del menú */
 #user-info {
-  position: absolute; /* Posiciona absolutamente la info del usuario dentro del .container-fluid */
-  right: 0; /* Alinea la info del usuario a la derecha */
-  top: 50%; /* Centra verticalmente la info del usuario */
-  transform: translateY(-50%); /* Ajusta el centrado vertical */
   display: flex;
   align-items: center;
+  margin-right: 20px;
 }
 
-/* Estilos para móviles si es necesario */
-@media (max-width: 991px) {
-  #user-info {
-      position: static; /* En dispositivos móviles, vuelve a la posición normal para que no sobreponga al menú colapsado */
-      transform: none;
-      top: auto;
-      display: block; /* O flex, dependiendo de cómo quieras que se vea en móviles */
-  }
+/* Estilos para el combo de acciones del usuario */
+#user-actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Coloca el combo a la derecha */
 }
 
-  
+
+#user-email {
+  margin-right: 10px; /* Añade un margen a la derecha para separar el correo electrónico de las acciones del usuario */
+}
+
+/* Estilos para el combo de acciones del usuario */
+/* Estilos para el combo de acciones del usuario */
+.dropdown-menu {
+  right: auto; /* Reinicia la posición a la izquierda */
+  left: 0; /* Alinea el combo a la izquierda */
+  margin-left: -100px; /* Ajusta el margen izquierdo */
+  margin-top: 10px; /* Ajusta el margen superior para centrar verticalmente */
+}
+
+.dropdown-menu.show {
+  max-height: 200px; /* Establece una altura máxima para el menú desplegable */
+  overflow-y: auto; /* Permite desplazamiento vertical si el contenido es demasiado grande */
+}
+
+
