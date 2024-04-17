@@ -1,0 +1,244 @@
+/* Ajusta el tamaño del carrusel */
+.carousel {
+    max-width: 80%;
+    margin: auto;
+}
+
+/* Ajusta el tamaño de las imágenes del carrusel */
+.carousel-item img {
+    max-height: 300px;
+    max-width: 100%;
+    object-fit: contain;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Estilos mejorados para controles del carrusel */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 35px;
+    height: 35px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Añade interactividad a las imágenes en la vista de cuadrícula */
+.imagen-cuadricula:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Ajusta el margen y el padding para que el texto sea más legible */
+.investigacion-container-grid h5,
+.investigacion-container-grid p {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Estilo para el contenedor de filtros */
+#filtros {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+}
+
+/* Estilos para los selectores */
+#filtros select {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+/* Quita los estilos por defecto en Firefox */
+#filtros select {
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Añade un pseudo-elemento para personalizar la flecha desplegable */
+#filtros select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path fill="%23000" d="M2048 384v128h-2048v-128h2048zm0 1664v128h-2048v-128h2048zm0-832v128h-2048v-128h2048z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px;
+}
+
+/* Estilos para el botón de cambio de vista */
+#toggleView {
+    padding: 5px 15px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+#toggleView:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para contenedores de cada investigación */
+.investigacion-container {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease;
+}
+
+/* Estilo para el contenedor del título y la descripción de la investigación */
+.investigacion-container h5,
+.investigacion-container p {
+    padding: 1rem;
+    margin: 0;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+/* Estilo para las imágenes dentro de los contenedores */
+.investigacion-container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Realza la caja al pasar el cursor por encima */
+.investigacion-container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para la información del autor */
+.autor-info {
+    padding: 0.5rem 1rem;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ddd;
+    color: #666;
+}
+
+
+
+/* Estilos para el contenedor de filtros */
+#filtros {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+}
+
+/* Estilos para los selectores */
+#filtros select {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+/* Quita los estilos por defecto en Firefox */
+#filtros select {
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Añade un pseudo-elemento para personalizar la flecha desplegable */
+#filtros select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path fill="%23000" d="M2048 384v128h-2048v-128h2048zm0 1664v128h-2048v-128h2048zm0-832v128h-2048v-128h2048z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px;
+}
+
+/* Estilos para el botón de cambio de vista */
+#toggleView {
+    padding: 5px 15px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+#toggleView:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para contenedores de cada investigación en la vista de cuadrícula */
+.investigacion-container-grid {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #fff;
+    text-align: center;
+}
+
+
+
+/* Estilo para la información del autor en la vista de cuadrícula */
+.autor-info {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 1rem;
+    text-align: center;
+}
+/* Estilo para el contenedor de imágenes dentro de cada investigación */
+/* Contenedor para las imágenes dentro de una investigación */
+/* Estilo para el contenedor de imágenes dentro de cada investigación en la vista de cuadrícula */
+.investigacion-imagenes-container {
+    display: flex; /* Cambia a un diseño de fila */
+    flex-wrap: nowrap; /* Evita que las imágenes se envuelvan */
+    overflow-x: auto;
+    overflow-y: hidden; /* Oculta cualquier desbordamiento vertical */
+    gap: 10px;
+    margin-top: 1rem;
+    padding-bottom: 10px;
+}
+
+/* Imágenes individuales dentro del contenedor de la investigación */
+.investigacion-imagen {
+    flex: 0 0 auto;
+    height: auto;
+    width: auto;
+    max-height: 120px;
+    object-fit: contain;
+}
+/* Estilo para las imágenes individuales en la vista de cuadrícula */
+.imagen-cuadricula {
+    max-width: 220px; /* Ajusta el ancho máximo de las imágenes */
+    max-height: 220px; /* Ajusta la altura máxima de las imágenes */
+    object-fit: contain; /* Ajusta la imagen dentro del contenedor */
+}
