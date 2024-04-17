@@ -216,3 +216,12 @@ margin-bottom: 50px;
 .card tbody tr:nth-child(odd) {
     background-color: #f8f9fa;
 }
+
+.image-invent-style {
+    position: relative;
+    display: none;
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
