@@ -1,4 +1,4 @@
-/* Estilos generales */
+Estilos generales
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
@@ -138,5 +138,6 @@ body {
   max-height: 200px; /* Establece una altura máxima para el menú desplegable */
   overflow-y: auto; /* Permite desplazamiento vertical si el contenido es demasiado grande */
 }
+
 
 
