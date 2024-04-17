@@ -1,49 +1,72 @@
 const db = firebase.firestore();
 
 const btnBuscar = document.querySelector('#btnBuscar');
-const area = document.querySelector('#area');
-const tablaProyectos = document.querySelector('#tabla');
+const selectAutores = document.querySelector('#autores');
+const selectArea = document.querySelector('#area');
+const selectCiclo = document.querySelector('#filtroCiclo');
+const selectFecha = document.querySelector('#filtroFecha');
+const tablaProyectos = document.querySelector('#tabla-proyectos');
 const btnReset = document.querySelector('#btnReset');
 
 window.onload = function() {
-    All();
-
-    // Delegación de eventos para manejar clics en la tabla
-    tablaProyectos.addEventListener('click', function(e) {
-        // Manejo del clic en las filas para la navegación
-        const row = e.target.closest('tr');
-        if (row && e.target.tagName !== 'BUTTON') {
-            const id = row.getAttribute('data-id');
-            if (id) {
-                Page(id);
-            }
-        }
-
-        // Manejo del clic en los botones dentro de las filas
-        if (e.target.tagName === 'BUTTON') {
-            const button = e.target;
-            if (button.getAttribute('data-action') === 'leer-mas') {
-                const descripcion = button.getAttribute('data-description');
-                mostrarDescripcion(descripcion);
-            } else if (button.getAttribute('data-action') === 'descargar-pdf') {
-                const pdfUrl = button.getAttribute('data-pdf-url');
-                descargarPdf(pdfUrl);
-            }
-        }
-    });
-
-    btnReset.addEventListener('click', function() { All(); });
+    actualizarCombos();
     btnBuscar.addEventListener('click', buscarProyectos);
+    btnReset.addEventListener('click', resetFilters);
+    tablaProyectos.addEventListener('click', handleTableClick);
+};
+
+function actualizarCombos() {
+    const autores = new Set(['Todos']);
+    const areas = new Set(['Todos']);
+    const ciclos = new Set(['Todos']);
+
+    db.collection('Pruebas').get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            const data = doc.data();
+            autores.add(data.Correo);
+            areas.add(data.area);
+            ciclos.add(data.ciclo);
+        });
+        populateSelect(selectAutores, autores);
+        populateSelect(selectArea, areas);
+        populateSelect(selectCiclo, ciclos);
+    }).catch(error => {
+        console.error("Error al obtener autores, áreas y ciclos: ", error);
+    });
 }
 
-function All() {
-    db.collection('Pruebas').get().then(function (querySnapshot) {
+function buscarProyectos() {
+    let query = db.collection('Pruebas');
+    const autorSeleccionado = selectAutores.value;
+    const areaSeleccionada = selectArea.value;
+    const cicloSeleccionado = selectCiclo.value;
+    const fechaSeleccionada = selectFecha.value;
+
+    if (autorSeleccionado !== 'Todos') {
+        query = query.where('Correo', '==', autorSeleccionado);
+    }
+    if (areaSeleccionada !== 'Todos') {
+        query = query.where('area', '==', areaSeleccionada);
+    }
+    if (cicloSeleccionado !== 'Todos') {
+        query = query.where('ciclo', '==', cicloSeleccionado);
+    }
+    if (fechaSeleccionada === 'Más recientes') {
+        query = query.orderBy('publicationDate', 'desc');
+    } else if (fechaSeleccionada === 'Más antiguos') {
+        query = query.orderBy('publicationDate', 'asc');
+    }
+
+    query.get().then(querySnapshot => {
         tablaProyectos.innerHTML = '';
-        querySnapshot.forEach(function (doc) {
+        if (querySnapshot.empty) {
+            tablaProyectos.innerHTML = '<tr><td colspan="5">No se encontraron proyectos con estos criterios.</td></tr>';
+            return;
+        }
+        querySnapshot.forEach(doc => {
             const proyecto = doc.data();
             const fila = document.createElement('tr');
             fila.setAttribute('data-id', doc.id);
-
             fila.innerHTML = `
                 <td>${proyecto.titulo}</td>
                 <td>${proyecto.area}</td>
@@ -56,38 +79,30 @@ function All() {
             `;
             tablaProyectos.appendChild(fila);
         });
-    }).catch(function (error) {
-        console.error('Error al obtener proyectos:', error);
+    }).catch(error => {
+        console.error('Error al buscar proyectos:', error);
     });
 }
 
-function buscarProyectos() {
-    db.collection('Pruebas').where('area', '==', area.value)
-        .get()
-        .then(function (query) {
-            tablaProyectos.innerHTML = '';
-            query.forEach(function (doc) {
-                const data = doc.data();
-                const fila = document.createElement('tr');
-                fila.setAttribute('data-id', doc.id);
-
-                fila.innerHTML = `
-                    <td>${data.titulo}</td>
-                    <td>${data.area}</td>
-                    <td>${data.Correo}</td>
-                    <td>
-                        ${data.descripcion.length > 100 ? data.descripcion.substring(0, 100) + '...' : data.descripcion}
-                        <button class="btn btn-link" data-action="leer-mas" data-description="${data.descripcion}" data-bs-toggle="modal" data-bs-target="#descripcionModal">Leer más</button>
-                    </td>
-                    <td><button data-action="descargar-pdf" data-pdf-url="${data.PDF}" class="btn btn-primary">Descargar PDF</button></td>
-                `;
-                tablaProyectos.appendChild(fila);
-            });
-        })
-        .catch(error => {
-            console.error('Error al filtrar proyectos:', error);
-        });
+function resetFilters() {
+    selectAutores.value = 'Todos';
+    selectArea.value = 'Todos';
+    selectCiclo.value = 'Todos';
+    selectFecha.value = 'Todos'; // Asegúrate de que el valor 'Todos' exista en las opciones de fecha
+    buscarProyectos();
 }
+
+function populateSelect(selectElement, options) {
+    selectElement.innerHTML = '';
+    options.forEach(optionValue => {
+        let option = document.createElement('option');
+        option.value = optionValue;
+        option.textContent = optionValue;
+        selectElement.appendChild(option);
+    });
+}
+
+
 
 function mostrarDescripcion(descripcion) {
     const descripcionCompleta = document.getElementById('descripcionCompleta');
