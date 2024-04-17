@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="css/style_01.css" />
     <!-- Plutos-->
     <link rel="stylesheet" href="css/styleindex.css" />
-
+    <link rel="stylesheet" href="css/estilosIndexDinamico.css" />
     <!-- References Firebase libraries -->
     <!-- Update the version number as needed -->
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
@@ -47,98 +47,90 @@
     </header>
 
     <main>
-      <h1 style="margin-bottom: 50px; text-align: center">
-        Investigaciones Académicas
-      </h1>
-      <section>
-        <h2>Lista de Investigaciones</h2>
-        <div>
-          <label for="autores">Autor:</label>
-          <select id="autores">
-            <!-- Las opciones se agregarán dinámicamente desde JavaScript -->
-          </select>
-        </div>
-        <div>
-          <label for="area">Área de Investigación:</label>
-          <select id="area">
-            <!-- Las opciones se agregarán dinámicamente desde JavaScript -->
-          </select>
-        </div>
-        <label for="filtroCiclo">Ciclo Escolar:</label>
-        <select id="filtroCiclo">
-          <option value="Todos">Todos</option>
-          <option value="PrimerCiclo">Primer Ciclo</option>
-          <option value="SegundoCiclo">Segundo Ciclo</option>
-          <option value="TercerCiclo">Tercer Ciclo</option>
-          <option value="CuartoCiclo">Cuarto Ciclo</option>
-        </select>
-
-        <label for="filtroFecha">Ordenar por Fecha:</label>
-        <select id="filtroFecha">
-          <option value="Todos">Todos</option>
-          <option value="Más recientes">Más recientes</option>
-          <option value="Más antiguos">Más antiguos</option>
-        </select>
-
-        <input
-          type="button"
-          class="btn btn-danger btn-sm"
-          value="X"
-          id="btnReset"
-        />
-        <br /><br />
-        <input type="button" value="Buscar" id="btnBuscar" />
-        <table id="tabla-proyectos" class="table table-hover table-bordered">
-          <thead>
-            <tr>
-              <th>Título de la Investigación</th>
-              <th>Área de Interés</th>
-              <th>Correo del Autor</th>
-              <th>Descripción</th>
-              <th>Descargar PDF</th>
-            </tr>
-          </thead>
-          <tbody id="tabla">
-            <!-- Las filas de la tabla se agregarán aquí dinámicamente desde JavaScript -->
-          </tbody>
-        </table>
-
-        <!-- Modal para mostrar la descripción completa -->
-        <div
-          class="modal fade"
-          id="descripcionModal"
-          tabindex="-1"
-          aria-labelledby="descripcionModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="descripcionModalLabel">
-                  Descripción Completa
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body" id="descripcionCompleta"></div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cerrar
-                </button>
+        <h1 style="margin-bottom: 50px; text-align: center">
+          Investigaciones Académicas
+        </h1>
+        <section>
+          <h2>Lista de Investigaciones</h2>
+          <!-- Contenedor de filtros -->
+          <div class="filtro-contenedor">
+            <!-- Filtro Autor -->
+            <div class="filtro">
+              <label for="autores">Autor:</label>
+              <select id="autores">
+                <!-- Las opciones se agregarán dinámicamente desde JavaScript -->
+              </select>
+            </div>
+            <!-- Filtro Área de Investigación -->
+            <div class="filtro">
+              <label for="area">Área de Investigación:</label>
+              <select id="area">
+                <!-- Las opciones se agregarán dinámicamente desde JavaScript -->
+              </select>
+            </div>
+            <!-- Filtro Ciclo Escolar -->
+            <div class="filtro">
+              <label for="filtroCiclo">Ciclo Escolar:</label>
+              <select id="filtroCiclo">
+                <option value="Todos">Todos</option>
+                <option value="PrimerCiclo">Primer Ciclo</option>
+                <option value="SegundoCiclo">Segundo Ciclo</option>
+                <option value="TercerCiclo">Tercer Ciclo</option>
+                <option value="CuartoCiclo">Cuarto Ciclo</option>
+              </select>
+            </div>
+            <!-- Filtro Ordenar por Fecha -->
+            <div class="filtro">
+              <label for="filtroFecha">Ordenar por Fecha:</label>
+              <select id="filtroFecha">
+                <option value="Todos">Todos</option>
+                <option value="Más recientes">Más recientes</option>
+                <option value="Más antiguos">Más antiguos</option>
+              </select>
+            </div>
+            <!-- Botón de reset -->
+            <div class="filtro boton-filtro">
+              <input type="button" class="btn btn-danger btn-sm" value="X" id="btnReset" />
+            </div>
+          </div>
+      
+          <!-- Tabla de proyectos -->
+          <table id="tabla-proyectos" class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>Título de la Investigación</th>
+                <th>Área de Interés</th>
+                <th>Correo del Autor</th>
+                <th>Descripción</th>
+                <th>Descargar PDF</th>
+              </tr>
+            </thead>
+            <tbody id="tabla">
+              <!-- Las filas de la tabla se agregarán aquí dinámicamente desde JavaScript -->
+            </tbody>
+          </table>
+          
+          <!-- Modal para mostrar la descripción completa -->
+          <div class="modal fade" id="descripcionModal" tabindex="-1" aria-labelledby="descripcionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="descripcionModalLabel">Descripción Completa</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="descripcionCompleta">
+                  <!-- La descripción completa se insertará aquí dinámicamente desde JavaScript -->
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+      
+      
 
     <footer style="position: relative; left: 0; bottom: 0; width: 100%">
       <!-- Footer content using footer-component -->

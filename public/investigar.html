@@ -21,6 +21,7 @@
     <!-- Custom styles -->
     <link rel="stylesheet" href="css/style_01.css" />
     <link rel="stylesheet" href="css/styleindex.css" />
+    <link rel="stylesheet" href="css/diseñoInvestigacion.css" />
 
     <!-- References Firebase libraries -->
     <!-- Update the version number as needed -->
@@ -44,49 +45,67 @@
       <!-- Header content using menu-component -->
       <menu-component></menu-component>
     </header>
+
     <main>
-        <div class="row" id="mainContent">
-            <!-- Contenido principal se cargará dinámicamente aquí -->
-        </div>
-        
-        <button id="addButton" class="btn btn-secondary">Agregar Comentario</button>
-        <div class="overlay" id="overlay"></div>
-        <div class="popup" id="addPopup">
-            <h3>Agregar Comentario</h3>
-            <input type="text" id="titleInput" placeholder="Nombre" required>
-            <br><br>
-            <div class="rating">
-                <input type="radio" id="star5" name="rating" value="5">
-                <label for="star5">☆</label>
-                <input type="radio" id="star4" name="rating" value="4">
-                <label for="star4">☆</label>
-                <input type="radio" id="star3" name="rating" value="3">
-                <label for="star3">☆</label>
-                <input type="radio" id="star2" name="rating" value="2">
-                <label for="star2">☆</label>
-                <input type="radio" id="star1" name="rating" value="1">
-                <label for="star1">☆</label>
-            </div>
-            <br><br>
-            <textarea id="descriptionInput" placeholder="Comentario" maxlength="500" rows="8" cols="50" required></textarea>
-            <br><br>
-            <button id="saveButton" class="btn btn-outline-info">Guardar</button>
-            <button id="cancelButton" class="btn btn-outline-warning">Cancelar</button>
-        </div>
-    
+      <div class="comments-section">
+        <button id="addButton" class="btn btn-secondary">
+          Agregar Comentario
+        </button>
+
         <!-- Botones para ordenar comentarios -->
-        <div>
-            <button onclick="sortCommentsByDateAsc()" class="btn btn-primary">Ordenar por Fecha Ascendente</button>
-            <button onclick="sortCommentsByDateDesc()" class="btn btn-primary">Ordenar por Fecha Descendente</button>
-            <button onclick="sortCommentsByRanking()" class="btn btn-primary">Ordenar por Ranking</button>
+        <div class="sort-buttons">
+          <button onclick="sortCommentsByDateAsc()" class="btn btn-primary">
+            Ordenar por Fecha Ascendente
+          </button>
+          <button onclick="sortCommentsByDateDesc()" class="btn btn-primary">
+            Ordenar por Fecha Descendente
+          </button>
+          <button onclick="sortCommentsByRanking()" class="btn btn-primary">
+            Ordenar por Ranking
+          </button>
         </div>
-        
+      </div>
+      <div id="mainContent">
+        <!-- El contenido principal se cargará dinámicamente aquí -->
+      </div>
+
+      <!-- Botones para agregar y ordenar comentarios -->
+
+      <!-- Overlay y Popup para agregar comentarios -->
+      <div class="overlay" id="overlay"></div>
+      <div class="popup" id="addPopup">
+        <h3>Agregar Comentario</h3>
+        <input type="text" id="titleInput" placeholder="Nombre" required />
+        <div class="rating">
+          <div class="rating">
+            <input type="radio" id="star5" name="rating" value="5" />
+            <label for="star5">☆</label>
+            <input type="radio" id="star4" name="rating" value="4" />
+            <label for="star4">☆</label>
+            <input type="radio" id="star3" name="rating" value="3" />
+            <label for="star3">☆</label>
+            <input type="radio" id="star2" name="rating" value="2" />
+            <label for="star2">☆</label>
+            <input type="radio" id="star1" name="rating" value="1" />
+            <label for="star1">☆</label>
+          </div>
+          <!-- Asegúrate de que el CSS esté enlazado correctamente para mostrar las estrellas -->
+        </div>
+        <textarea
+          id="descriptionInput"
+          placeholder="Comentario"
+          maxlength="500"
+          rows="8"
+          cols="50"
+          required
+        ></textarea>
+        <button id="saveButton" class="btn btn-outline-info">Guardar</button>
+        <button id="cancelButton" class="btn btn-outline-warning">
+          Cancelar
+        </button>
+      </div>
     </main>
-    
-    
-    
-    
-    
+
     <footer style="position: relative; left: 0; bottom: 0; width: 100%">
       <!-- Footer content using footer-component -->
       <footer-component></footer-component>

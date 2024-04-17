@@ -1,19 +1,27 @@
 const db = firebase.firestore();
 
-const btnBuscar = document.querySelector('#btnBuscar');
 const selectAutores = document.querySelector('#autores');
 const selectArea = document.querySelector('#area');
 const selectCiclo = document.querySelector('#filtroCiclo');
 const selectFecha = document.querySelector('#filtroFecha');
-const tablaProyectos = document.querySelector('#tabla-proyectos');
+const cuerpoTabla = document.querySelector('#tabla-proyectos tbody');
 const btnReset = document.querySelector('#btnReset');
 
+// Inicializa los filtros y los manejadores de eventos cuando la ventana carga
 window.onload = function() {
     actualizarCombos();
-    btnBuscar.addEventListener('click', buscarProyectos);
-    btnReset.addEventListener('click', resetFilters);
-    tablaProyectos.addEventListener('click', handleTableClick);
+    cuerpoTabla.addEventListener('click', handleTableClick);
+    buscarProyectos();
 };
+
+// Añade los manejadores de eventos de cambio a los elementos select y de click al botón de reset
+function inicializarFiltros() {
+    selectAutores.addEventListener('change', buscarProyectos);
+    selectArea.addEventListener('change', buscarProyectos);
+    selectCiclo.addEventListener('change', buscarProyectos);
+    selectFecha.addEventListener('change', buscarProyectos);
+    btnReset.addEventListener('click', resetFilters);
+}
 
 function actualizarCombos() {
     const autores = new Set(['Todos']);
@@ -30,10 +38,15 @@ function actualizarCombos() {
         populateSelect(selectAutores, autores);
         populateSelect(selectArea, areas);
         populateSelect(selectCiclo, ciclos);
+        // Inicializa los filtros para manejar cambios.
+        inicializarFiltros();
+        // Ejecuta la búsqueda inicial después de que todos los filtros han sido poblados.
+        buscarProyectos();
     }).catch(error => {
         console.error("Error al obtener autores, áreas y ciclos: ", error);
     });
 }
+
 
 function buscarProyectos() {
     let query = db.collection('Pruebas');
@@ -58,9 +71,9 @@ function buscarProyectos() {
     }
 
     query.get().then(querySnapshot => {
-        tablaProyectos.innerHTML = '';
+        cuerpoTabla.innerHTML = ''; // Limpiamos el cuerpo de la tabla
         if (querySnapshot.empty) {
-            tablaProyectos.innerHTML = '<tr><td colspan="5">No se encontraron proyectos con estos criterios.</td></tr>';
+            cuerpoTabla.innerHTML = '<tr><td colspan="5">No se encontraron proyectos con estos criterios.</td></tr>';
             return;
         }
         querySnapshot.forEach(doc => {
@@ -77,7 +90,7 @@ function buscarProyectos() {
                 </td>
                 <td><button data-action="descargar-pdf" data-pdf-url="${proyecto.PDF}" class="btn btn-primary">Descargar PDF</button></td>
             `;
-            tablaProyectos.appendChild(fila);
+            cuerpoTabla.appendChild(fila);
         });
     }).catch(error => {
         console.error('Error al buscar proyectos:', error);
@@ -88,8 +101,8 @@ function resetFilters() {
     selectAutores.value = 'Todos';
     selectArea.value = 'Todos';
     selectCiclo.value = 'Todos';
-    selectFecha.value = 'Todos'; // Asegúrate de que el valor 'Todos' exista en las opciones de fecha
-    buscarProyectos();
+    selectFecha.value = 'Todos';
+    buscarProyectos(); // Llama a buscar proyectos para refrescar la lista con los filtros reseteados
 }
 
 function populateSelect(selectElement, options) {

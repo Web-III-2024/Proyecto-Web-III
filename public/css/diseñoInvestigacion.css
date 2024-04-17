@@ -1,0 +1,185 @@
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  /* Contenedor principal */
+  #mainContent {
+    max-width: 800px; /* o el ancho que prefieras */
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Títulos de sección */
+  h1, h2, h3, h5 {
+    color: #007BFF;
+  }
+  
+  h1 {
+    margin-bottom: 0.5em;
+    text-align: center;
+  }
+  
+  h2 {
+    margin-top: 1em;
+    margin-bottom: 0.3em;
+    border-bottom: 2px solid #007BFF;
+  }
+  
+  /* Imágenes y su contenedor */
+  .image-container {
+    display: flex;
+    justify-content: center; /* Centra las imágenes en el contenedor */
+    flex-wrap: wrap; /* Permite que las imágenes se ajusten a la siguiente línea si no hay espacio */
+    gap: 10px; /* Espacio entre las imágenes */
+  }
+  
+  .dynamic-image {
+    flex: 0 0 auto; /* No permite que las imágenes crezcan o se encojan, y establece su base a auto */
+    max-width: calc(33% - 10px); /* Ajusta esto para el número de imágenes que quieres por línea */
+    height: auto; /* Mantiene la proporción de las imágenes */
+    object-fit: cover; /* Asegura que la imagen cubra el área asignada sin perder su aspecto */
+  }
+  
+  
+  @media (max-width: 768px) {
+    .dynamic-image {
+      width: 100%; /* en pantallas pequeñas, las imágenes toman todo el ancho */
+    }
+  }
+  .card.table {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    margin-bottom: 20px; /* Espacio después de la tabla */
+  }
+  
+  /* Estilos para las celdas de la tabla para mantener el contenido alineado */
+  .card.table th, 
+  .card.table td {
+    text-align: left; /* Alinea el texto a la izquierda */
+    vertical-align: middle; /* Alinea verticalmente el contenido en el medio */
+    padding: 8px; /* Espaciado dentro de las celdas */
+  }
+  
+  /* Para las celdas de calificación, se puede asignar un ancho más pequeño */
+  .card.table th:nth-child(2), 
+  .card.table td:nth-child(2) {
+    width: 10%; /* Asigna un ancho fijo para la columna de calificación */
+  }
+  
+  /* Para las celdas de comentarios, se puede permitir un ancho mayor */
+  .card.table th:nth-child(3), 
+  .card.table td:nth-child(3) {
+    width: 50%; /* Asigna un ancho mayor para la columna de comentarios */
+  }
+
+  .comments-section {
+    display: flex;
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: center; /* Alinea verticalmente */
+    padding: 20px;
+    background-color: #f8f9fa; /* Color de fondo suave */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    margin-bottom: 20px; /* Espacio antes de la tabla de comentarios */
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px; /* Bordes redondeados para los botones */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo al pasar el ratón */
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d; /* Color de fondo para el botón secundario */
+    color: white;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268; /* Color al pasar el ratón */
+  }
+  
+  .btn-primary {
+    background-color: #007bff; /* Color de fondo para botones primarios */
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3; /* Color al pasar el ratón */
+  }
+  
+  .sort-buttons {
+    display: flex;
+    gap: 10px; /* Espacio entre botones */
+  }
+  
+  /* Ajustes para la visualización en dispositivos móviles */
+  @media (max-width: 768px) {
+    .comments-section {
+      flex-direction: column; /* Los elementos se apilan verticalmente */
+    }
+  
+    .sort-buttons {
+      justify-content: center;
+      width: 100%; /* Asegura que los botones usen todo el ancho disponible */
+      margin-top: 10px; /* Espacio arriba de los botones de orden */
+    }
+  
+    .btn {
+      width: 100%; /* Botones se expanden para usar el ancho completo */
+    }
+  }
+
+  .table {
+    width: 100%; /* La tabla utiliza todo el ancho disponible */
+    border-collapse: collapse; /* Los bordes de la tabla y las celdas se colapsan en uno solo */
+    table-layout: fixed; /* Esto ayuda a mantener el ancho de las celdas como se define */
+  }
+  
+  .table th, 
+  .table td {
+    border: 1px solid #dee2e6; /* Color claro para los bordes de las celdas */
+    text-align: left; /* Alinea el texto a la izquierda */
+    padding: 8px; /* Espacio dentro de las celdas */
+    vertical-align: middle; /* Centra el contenido verticalmente */
+  }
+  
+  /* Asegúrate de que los encabezados de la tabla y las celdas tengan el mismo ancho */
+  .table th:nth-child(1), .table td:nth-child(1) {
+    width: 25%; /* Ajusta los porcentajes según tus necesidades */
+  }
+  
+  .table th:nth-child(2), .table td:nth-child(2) {
+    width: 15%;
+  }
+  
+  .table th:nth-child(3), .table td:nth-child(3) {
+    width: 45%;
+  }
+  
+  .table th:nth-child(4), .table td:nth-child(4) {
+    width: 15%;
+  }
+  
+  /* Agrega overflow para manejar contenido excesivamente largo en las celdas */
+  .table td {
+    overflow: hidden; /* Esconde el contenido que desborde */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos si el contenido desborda */
+    white-space: nowrap; /* No permite el salto de línea en las celdas */
+  }
+  
+  /* Estilos para celdas con estrellas para asegurar que se alinean correctamente y no empujan el ancho de la columna */
+  .table td.rating-cell {
+    white-space: nowrap; /* Asegura que las estrellas no causen un salto de línea */
+    text-align: center; /* Centra las estrellas */
+  }
+  

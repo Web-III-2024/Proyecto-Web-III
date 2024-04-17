@@ -6,11 +6,10 @@ class Footer extends HTMLElement{
 <div class="div_pc">
     Carrera de Tecnologías de la información<br/>
     Curso de Tecnologías y Sistemas Web 3<br/>
-    Desarrollado por Eduar, William </div>
-<div class="div_pd">
-    <a href="https://www.facebook.com/"><i class="fa fa-2x fa-facebook"></i></a>
-    <br>
-    <a href="https://twitter.com/"><i class="fa fa-2x fa-twitter"></i></a>
+    Desarrollado por Eduar, William, Camila, David y Esteban
+    <br/>
+    Desarrolladores profesionales </div>
+
 </div>` 
     }     
 }
